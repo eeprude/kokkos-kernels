@@ -667,7 +667,7 @@ void HostBlas<float>::gesv(int n, int rhs, float* a, int lda, int* ipiv,
   F77_FUNC_SGESV(&n, &rhs, a, &lda, ipiv, b, &ldb, &info);
 }
 template <>
-void HostBlas<float>::getrf(int m, int n, T *a, int lda, int *ipiv, int info) {
+void HostBlas<float>::getrf(int m, int n, float *a, int lda, int *ipiv, int info) {
   F77_FUNC_SGETRF(&m, &n, a, &lda, ipiv, &info);
 }
 template <>

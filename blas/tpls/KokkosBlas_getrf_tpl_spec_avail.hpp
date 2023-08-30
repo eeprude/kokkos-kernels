@@ -32,7 +32,7 @@ struct getrf_tpl_spec_avail {
   template <class ExecSpace>                                              \
   struct getrf_tpl_spec_avail<                                            \
       Kokkos::View<SCALAR**, LAYOUT, Kokkos::Device<ExecSpace, MEMSPACE>, \
-                   Kokkos::MemoryTraits<Kokkos::Unmanaged> >,             \
+                   Kokkos::MemoryTraits<Kokkos::Unmanaged> > > {          \
     enum : bool { value = true };                                         \
   };
 

@@ -49,7 +49,7 @@ struct getrf_eti_spec_avail {
   struct getrf_eti_spec_avail<                                          \
       Kokkos::View<SCALAR_TYPE **, LAYOUT_TYPE,                         \
                    Kokkos::Device<EXEC_SPACE_TYPE, MEM_SPACE_TYPE>,     \
-                   Kokkos::MemoryTraits<Kokkos::Unmanaged> >,           \
+                   Kokkos::MemoryTraits<Kokkos::Unmanaged> > > {        \
     enum : bool { value = true };                                       \
   };
 

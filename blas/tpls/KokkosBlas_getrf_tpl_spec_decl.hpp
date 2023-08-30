@@ -71,8 +71,8 @@ namespace Impl {
       const int M = static_cast<int>(A.extent(0));                            \
       const int N = static_cast<int>(A.extent(1));                            \
                                                                               \
-      const bool A_is_lr = std::is_same<Kokkos::LayoutRight, LAYOUTA>::value; \
-      const int  AST     = A_is_lr ? A.stride(0) : A.stride(1),               \
+      const bool A_is_lr = std::is_same<Kokkos::LayoutRight, LAYOUT>::value;  \
+      const int  AST     = A_is_lr ? A.stride(0) : A.stride(1);               \
       const int  LDA     = (AST == 0) ? 1 : AST;                              \
                                                                               \
       int info = 0;                                                           \
@@ -110,8 +110,8 @@ namespace Impl {
       const int M = static_cast<int>(A.extent(0));                            \
       const int N = static_cast<int>(A.extent(1));                            \
                                                                               \
-      const bool A_is_lr = std::is_same<Kokkos::LayoutRight, LAYOUTA>::value; \
-      const int  AST     = A_is_lr ? A.stride(0) : A.stride(1),               \
+      const bool A_is_lr = std::is_same<Kokkos::LayoutRight, LAYOUT>::value;  \
+      const int  AST     = A_is_lr ? A.stride(0) : A.stride(1);               \
       const int  LDA     = (AST == 0) ? 1 : AST;                              \
                                                                               \
       int info = 0;                                                           \
@@ -150,8 +150,8 @@ namespace Impl {
       const int M = static_cast<int>(A.extent(0));                            \
       const int N = static_cast<int>(A.extent(1));                            \
                                                                               \
-      const bool A_is_lr = std::is_same<Kokkos::LayoutRight, LAYOUTA>::value; \
-      const int  AST     = A_is_lr ? A.stride(0) : A.stride(1),               \
+      const bool A_is_lr = std::is_same<Kokkos::LayoutRight, LAYOUT>::value;  \
+      const int  AST     = A_is_lr ? A.stride(0) : A.stride(1);               \
       const int  LDA     = (AST == 0) ? 1 : AST;                              \
                                                                               \
       int info = 0;                                                           \
@@ -192,8 +192,8 @@ namespace Impl {
       const int M = static_cast<int>(A.extent(0));                            \
       const int N = static_cast<int>(A.extent(1));                            \
                                                                               \
-      const bool A_is_lr = std::is_same<Kokkos::LayoutRight, LAYOUTA>::value; \
-      const int  AST     = A_is_lr ? A.stride(0) : A.stride(1),               \
+      const bool A_is_lr = std::is_same<Kokkos::LayoutRight, LAYOUT>::value;  \
+      const int  AST     = A_is_lr ? A.stride(0) : A.stride(1);               \
       const int  LDA     = (AST == 0) ? 1 : AST;                              \
                                                                               \
       int info = 0;                                                           \
@@ -256,8 +256,8 @@ namespace Impl {
       magma_int_t M = static_cast<magma_int_t>(A.extent(0));                  \
       magma_int_t N = static_cast<magma_int_t>(A.extent(1));                  \
                                                                               \
-      const bool A_is_lr = std::is_same<Kokkos::LayoutRight, LAYOUTA>::value; \
-      magma_int_t AST    = A_is_lr ? A.stride(0) : A.stride(1),               \
+      const bool A_is_lr = std::is_same<Kokkos::LayoutRight, LAYOUT>::value;  \
+      magma_int_t AST    = A_is_lr ? A.stride(0) : A.stride(1);               \
       magma_int_t LDA    = (AST == 0) ? 1 : AST;                              \
                                                                               \
       KokkosBlas::Impl::MagmaSingleton& s =                                   \
@@ -298,8 +298,8 @@ namespace Impl {
       magma_int_t M = static_cast<magma_int_t>(A.extent(0));                  \
       magma_int_t N = static_cast<magma_int_t>(A.extent(1));                  \
                                                                               \
-      const bool A_is_lr = std::is_same<Kokkos::LayoutRight, LAYOUTA>::value; \
-      magma_int_t AST    = A_is_lr ? A.stride(0) : A.stride(1),               \
+      const bool A_is_lr = std::is_same<Kokkos::LayoutRight, LAYOUT>::value;  \
+      magma_int_t AST    = A_is_lr ? A.stride(0) : A.stride(1);               \
       magma_int_t LDA    = (AST == 0) ? 1 : AST;                              \
                                                                               \
       KokkosBlas::Impl::MagmaSingleton& s =                                   \
@@ -341,8 +341,8 @@ namespace Impl {
       magma_int_t M = static_cast<magma_int_t>(A.extent(0));                  \
       magma_int_t N = static_cast<magma_int_t>(A.extent(1));                  \
                                                                               \
-      const bool A_is_lr = std::is_same<Kokkos::LayoutRight, LAYOUTA>::value; \
-      magma_int_t AST    = A_is_lr ? A.stride(0) : A.stride(1),               \
+      const bool A_is_lr = std::is_same<Kokkos::LayoutRight, LAYOUT>::value;  \
+      magma_int_t AST    = A_is_lr ? A.stride(0) : A.stride(1);               \
       magma_int_t LDA    = (AST == 0) ? 1 : AST;                              \
                                                                               \
       KokkosBlas::Impl::MagmaSingleton& s =                                   \
@@ -384,8 +384,8 @@ namespace Impl {
       magma_int_t M = static_cast<magma_int_t>(A.extent(0));                  \
       magma_int_t N = static_cast<magma_int_t>(A.extent(1));                  \
                                                                               \
-      const bool A_is_lr = std::is_same<Kokkos::LayoutRight, LAYOUTA>::value; \
-      magma_int_t AST    = A_is_lr ? A.stride(0) : A.stride(1),               \
+      const bool A_is_lr = std::is_same<Kokkos::LayoutRight, LAYOUT>::value;  \
+      magma_int_t AST    = A_is_lr ? A.stride(0) : A.stride(1);               \
       magma_int_t LDA    = (AST == 0) ? 1 : AST;                              \
                                                                               \
       KokkosBlas::Impl::MagmaSingleton& s =                                   \
