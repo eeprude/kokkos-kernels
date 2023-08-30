@@ -18,6 +18,7 @@
 
 #include "Test_Blas_gesv.hpp"
 #include "Test_Blas_trtri.hpp"
+#include "Test_Blas_getrf.hpp"
 
 // Blas 1
 #include "Test_Blas1_abs.hpp"
