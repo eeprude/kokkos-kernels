@@ -48,7 +48,7 @@ namespace KokkosBlas {
 /// (for partial pivoting). If the View extents are zero and
 ///   its data pointer is NULL, pivoting is not used.
 ///
-template <class AMatrix, class BXMV, class IPIVV>
+template <class AMatrix, class IPIVV>
 void getrf(const AMatrix& A, const IPIVV& IPIV) {
   // NOTE: Currently, KokkosBlas::getrf only supports for MAGMA TPL and BLAS TPL.
   //       MAGMA TPL should be enabled to call the MAGMA GPU interface for
