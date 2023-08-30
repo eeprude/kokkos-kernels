@@ -110,6 +110,8 @@ struct HostBlas {
   static void gesv(int n, int rhs, T *a, int lda, int *ipiv, T *b, int ldb,
                    int info);
 
+  static void getrf(int m, int n, T *a, int lda, int *ipiv, int info);
+
   static int trtri(const char uplo, const char diag, int n, const T *a,
                    int lda);
 };
