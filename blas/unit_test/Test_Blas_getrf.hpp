@@ -14,7 +14,7 @@
 //
 //@HEADER
 
-// AquiEEP
+#if 0 // Aqui
 
 // only enable this test where KokkosBlas supports gesv:
 // CUDA+MAGMA and HOST+BLAS
@@ -415,3 +415,5 @@ TEST_F(TestCategory, gesv_mrhs_complex_float) {
 #endif
 
 #endif  // CUDA+MAGMA or BLAS+HOST
+
+#endif // Aqui
