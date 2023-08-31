@@ -14,10 +14,10 @@
 //
 //@HEADER
 
-#ifndef KOKKOSBLAS_IMPL_GESV_HPP_
-#define KOKKOSBLAS_IMPL_GESV_HPP_
+#ifndef KOKKOSBLAS_IMPL_GETRI_HPP_
+#define KOKKOSBLAS_IMPL_GETRI_HPP_
 
-/// \file KokkosBlas_gesv_impl.hpp
+/// \file KokkosBlas_getri_impl.hpp
 /// \brief Implementation(s) of dense linear solve.
 
 #include <KokkosKernels_config.h>
@@ -26,9 +26,9 @@
 namespace KokkosBlas {
 namespace Impl {
 
-// NOTE: Might add the implementation of KokkosBlas::gesv later
+// NOTE: Might add the implementation of KokkosBlas::getri later
 
 }  // namespace Impl
 }  // namespace KokkosBlas
 
-#endif  // KOKKOSBLAS_IMPL_GESV_HPP
+#endif  // KOKKOSBLAS_IMPL_GETRI_HPP

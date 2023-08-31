@@ -64,44 +64,16 @@ void getrf(const AMatrix& A, const IPIVV& IPIV) {
   static_assert(static_cast<int>(IPIVV::rank) == 1,
                 "KokkosBlas::getrf: IPIV must have rank 1.");
 
-  int64_t IPIV0 = IPIV.extent(0);
-  int64_t A0    = A.extent(0);
-  int64_t A1    = A.extent(1);
-
   // Check validity of pivot argument
-  bool valid_pivot =
-      (IPIV0 == A1) || ((IPIV0 == 0) && (IPIV.data() == nullptr));
-  if (!(valid_pivot)) {
+  if ((IPIV.data()    != nullptr                          ) &&
+      (IPIV.extent(0) == std::min(A.extent(0),A.extent(1)))) {
+    // Ok
+  }
+  else {
     std::ostringstream os;
-    os << "KokkosBlas::getrf: IPIV: " << IPIV0 << ". "
-       << "Valid options include zero-extent 1-D view (no pivoting), or 1-D "
-          "View with size of "
-       << A0 << " (partial pivoting).";
+    os << "KokkosBlas::getrf(): invalid IPIV";
     KokkosKernels::Impl::throw_runtime_exception(os.str());
   }
-
-  // Check for no pivoting case. Only MAGMA supports no pivoting interface
-#ifdef KOKKOSKERNELS_ENABLE_TPL_MAGMA  // have MAGMA TPL
-#ifdef KOKKOSKERNELS_ENABLE_TPL_BLAS   // and have BLAS TPL
-  if ((!std::is_same<typename AMatrix::device_type::memory_space,
-                     Kokkos::CudaSpace>::value) &&
-      (IPIV0 == 0) && (IPIV.data() == nullptr)) {
-    std::ostringstream os;
-    os << "KokkosBlas::getrf: IPIV: " << IPIV0 << ". "
-       << "BLAS TPL does not support no pivoting.";
-    KokkosKernels::Impl::throw_runtime_exception(os.str());
-  }
-#endif
-#else                                 // not have MAGMA TPL
-#ifdef KOKKOSKERNELS_ENABLE_TPL_BLAS  // but have BLAS TPL
-  if ((IPIV0 == 0) && (IPIV.data() == nullptr)) {
-    std::ostringstream os;
-    os << "KokkosBlas::getrf: IPIV: " << IPIV0 << ". "
-       << "BLAS TPL does not support no pivoting.";
-    KokkosKernels::Impl::throw_runtime_exception(os.str());
-  }
-#endif
-#endif
 
   typedef Kokkos::View<
       typename AMatrix::non_const_value_type**, typename AMatrix::array_layout,

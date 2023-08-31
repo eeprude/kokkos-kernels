@@ -67,8 +67,8 @@ void impl_test_getrf(int N) {
 #endif
 
   // Allocate IPIV view on host
-  typedef Kokkos::View<int*, Kokkos::LayoutLeft, Kokkos::HostSpace> ViewTypeP;
-  ViewTypeP ipiv("IPIV", N);;
+  typedef Kokkos::View<int*, Kokkos::LayoutLeft, Kokkos::HostSpace> ViewTypeP; // AquiLuc
+  ViewTypeP ipiv("IPIV", N);
 
   // Solve.
   try {
