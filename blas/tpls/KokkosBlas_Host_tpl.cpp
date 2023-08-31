@@ -415,7 +415,6 @@ void F77_BLAS_MANGLE(ctrtri, CTRTRI)(const char*, const char*, int*,
                                      const std::complex<float>*, int*, int*);
 void F77_BLAS_MANGLE(ztrtri, ZTRTRI)(const char*, const char*, int*,
                                      const std::complex<double>*, int*, int*);
-}
 
 ///
 /// Getrf
@@ -434,6 +433,8 @@ void F77_BLAS_MANGLE(sgetri, SGETRI)(int*, float*, int*, int*, float*, int*, int
 void F77_BLAS_MANGLE(dgetri, DGETRI)(int*, double*, int*, int*, double*, int*, int*);
 void F77_BLAS_MANGLE(cgetri, CGETRI)(int*, std::complex<float>*, int*, int*, std::complex<float>*, int*, int*);
 void F77_BLAS_MANGLE(zgetri, ZGETRI)(int*, std::complex<double>*, int*, int*, std::complex<double>*, int*, int*);
+
+}
 
 void F77_BLAS_MANGLE(sscal, SSCAL)(const int* N, const float* alpha,
                                    /* */ float* x, const int* x_inc);

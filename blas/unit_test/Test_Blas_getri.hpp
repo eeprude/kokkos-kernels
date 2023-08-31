@@ -27,12 +27,13 @@
 #include <Kokkos_Random.hpp>
 
 #include <KokkosBlas_getri.hpp>
+#include <KokkosBlas_getrf.hpp>
 //#include <KokkosBlas3_gemm.hpp>
 #include <KokkosKernels_TestUtils.hpp>
 
 namespace Test {
 
-template <class ViewTypeA, class Device>
+template <class ViewTypeA, class ViewTypeWork, class Device>
 void impl_test_getri(int N) {
   typedef typename Device::execution_space execution_space;
   typedef typename ViewTypeA::value_type ScalarA;
@@ -70,10 +71,11 @@ void impl_test_getri(int N) {
   typedef Kokkos::View<int*, Kokkos::LayoutLeft, Kokkos::HostSpace> ViewTypeP;
   ViewTypeP ipiv("IPIV", N);
 
-  ViewTypeP work("IPIV", N);
+  ViewTypeWork work("WORK", N); // Aqui
 
   // Solve.
   try {
+    KokkosBlas::getrf(A, ipiv);
     KokkosBlas::getri(A, ipiv, work); // Aqui
   } catch (const std::runtime_error& error) {
     // Check for expected runtime errors due to:
@@ -132,19 +134,20 @@ int test_getri() {
     (!defined(KOKKOSKERNELS_ETI_ONLY) &&      \
      !defined(KOKKOSKERNELS_IMPL_CHECK_ETI_CALLS))
   typedef Kokkos::View<Scalar**, Kokkos::LayoutLeft, Device> view_type_a_ll;
-  Test::impl_test_getri<view_type_a_ll, Device>(
+  typedef Kokkos::View<Scalar*, Kokkos::LayoutLeft, Device> view_type_work_ll;
+  Test::impl_test_getri<view_type_a_ll, view_type_work_ll, Device>(
       2);
-  Test::impl_test_getri<view_type_a_ll, Device>(
+  Test::impl_test_getri<view_type_a_ll, view_type_work_ll, Device>(
       13);
-  Test::impl_test_getri<view_type_a_ll, Device>(
+  Test::impl_test_getri<view_type_a_ll, view_type_work_ll, Device>(
       179);
-  Test::impl_test_getri<view_type_a_ll, Device>(
+  Test::impl_test_getri<view_type_a_ll, view_type_work_ll, Device>(
       64);
-  Test::impl_test_getri<view_type_a_ll, Device>(
+  Test::impl_test_getri<view_type_a_ll, view_type_work_ll, Device>(
       1024);
-  Test::impl_test_getri<view_type_a_ll, Device>(
+  Test::impl_test_getri<view_type_a_ll, view_type_work_ll, Device>(
       13);
-  Test::impl_test_getri<view_type_a_ll, Device>(
+  Test::impl_test_getri<view_type_a_ll, view_type_work_ll, Device>(
       179);
 #endif
 
