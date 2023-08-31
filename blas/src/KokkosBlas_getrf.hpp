@@ -59,6 +59,7 @@ void getrf(const AMatrix& A, const IPIVV& IPIV) {
                 "KokkosBlas::getrf: A must be a Kokkos::View.");
   static_assert(Kokkos::is_view<IPIVV>::value,
                 "KokkosBlas::getrf: IPIV must be a Kokkos::View.");
+
   static_assert(static_cast<int>(AMatrix::rank) == 2,
                 "KokkosBlas::getrf: A must have rank 2.");
   static_assert(static_cast<int>(IPIVV::rank) == 1,
@@ -75,14 +76,12 @@ void getrf(const AMatrix& A, const IPIVV& IPIV) {
     KokkosKernels::Impl::throw_runtime_exception(os.str());
   }
 
-  typedef Kokkos::View<
+  using AMatrix_Internal = Kokkos::View<
       typename AMatrix::non_const_value_type**, typename AMatrix::array_layout,
-      typename AMatrix::device_type, Kokkos::MemoryTraits<Kokkos::Unmanaged> >
-      AMatrix_Internal;
-  typedef Kokkos::View<
+      typename AMatrix::device_type, Kokkos::MemoryTraits<Kokkos::Unmanaged> >;
+  using IPIVV_Internal = Kokkos::View<
       typename IPIVV::non_const_value_type*, typename IPIVV::array_layout,
-      typename IPIVV::device_type, Kokkos::MemoryTraits<Kokkos::Unmanaged> >
-      IPIVV_Internal;
+      typename IPIVV::device_type, Kokkos::MemoryTraits<Kokkos::Unmanaged> >;
   AMatrix_Internal A_i = A;
   IPIVV_Internal IPIV_i = IPIV;
 

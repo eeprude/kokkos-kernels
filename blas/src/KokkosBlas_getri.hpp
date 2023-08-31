@@ -14,8 +14,6 @@
 //
 //@HEADER
 
-// AquiEEP
-
 /// \file KokkosBlas_getri.hpp
 /// \brief Local dense linear solve
 ///
@@ -50,7 +48,7 @@ namespace KokkosBlas {
 /// (for partial pivoting). If the View extents are zero and
 ///   its data pointer is NULL, pivoting is not used.
 ///
-template <class AMatrix, class WORKV, class IPIVV>
+template <class AMatrix, class IPIVV, class WORKV>
 void getri(const AMatrix& A, const IPIVV& IPIV, const WORKV& WORK) {
   // NOTE: Currently, KokkosBlas::getri only supports for MAGMA TPL and BLAS TPL.
   //       MAGMA TPL should be enabled to call the MAGMA GPU interface for
@@ -63,12 +61,13 @@ void getri(const AMatrix& A, const IPIVV& IPIV, const WORKV& WORK) {
                 "KokkosBlas::getri: IPIV must be a Kokkos::View.");
   static_assert(Kokkos::is_view<WORKV>::value,
                 "KokkosBlas::getri: WORK must be a Kokkos::View.");
+
   static_assert(static_cast<int>(AMatrix::rank) == 2,
                 "KokkosBlas::getri: A must have rank 2.");
-  static_assert(static_cast<int>(WORKV::rank) == 1,
-                "KokkosBlas::getri: WORK must have rank 1.");
   static_assert(static_cast<int>(IPIVV::rank) == 1,
                 "KokkosBlas::getri: IPIV must have rank 1.");
+  static_assert(static_cast<int>(WORKV::rank) == 1,
+                "KokkosBlas::getri: WORK must have rank 1.");
 
   // Check validity of pivot argument
   if ((IPIV.data()    != nullptr                          ) &&
@@ -81,23 +80,20 @@ void getri(const AMatrix& A, const IPIVV& IPIV, const WORKV& WORK) {
     KokkosKernels::Impl::throw_runtime_exception(os.str());
   }
 
-  typedef Kokkos::View<
+  using AMatrix_Internal = Kokkos::View<
       typename AMatrix::non_const_value_type**, typename AMatrix::array_layout,
-      typename AMatrix::device_type, Kokkos::MemoryTraits<Kokkos::Unmanaged> >
-      AMatrix_Internal;
-  typedef Kokkos::View<
+      typename AMatrix::device_type, Kokkos::MemoryTraits<Kokkos::Unmanaged> >;
+  using IPIVV_Internal = Kokkos::View<
       typename IPIVV::non_const_value_type*, typename IPIVV::array_layout,
-      typename IPIVV::device_type, Kokkos::MemoryTraits<Kokkos::Unmanaged> >
-      IPIVV_Internal;
-  typedef Kokkos::View<typename WORKV::non_const_value_type*,
+      typename IPIVV::device_type, Kokkos::MemoryTraits<Kokkos::Unmanaged> >;
+  using WORKV_Internal = Kokkos::View<typename WORKV::non_const_value_type*,
                        typename WORKV::array_layout, typename WORKV::device_type,
-                       Kokkos::MemoryTraits<Kokkos::Unmanaged> >
-      WORKV_Internal;
+                       Kokkos::MemoryTraits<Kokkos::Unmanaged> >;
   AMatrix_Internal A_i = A;
   IPIVV_Internal IPIV_i = IPIV;
   WORKV_Internal WORK_i = WORK;
 
-  KokkosBlas::Impl::GETRI<AMatrix_Internal, WORKV_Internal, IPIVV_Internal>::getri(A_i, IPIV_i, WORK_i);
+  KokkosBlas::Impl::GETRI<AMatrix_Internal, IPIVV_Internal, WORKV_Internal>::getri(A_i, IPIV_i, WORK_i);
 }
 
 }  // namespace KokkosBlas
