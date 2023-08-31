@@ -430,10 +430,10 @@ void F77_BLAS_MANGLE(zgetrf, ZGETRF)(int*, int*, std::complex<double>*, int*, in
 /// Getri
 ///
 
-void F77_BLAS_MANGLE(sgetri, SGETRI)(int*, int*, float*, int*, int*, int*);
-void F77_BLAS_MANGLE(dgetri, DGETRI)(int*, int*, double*, int*, int*, int*);
-void F77_BLAS_MANGLE(cgetri, CGETRI)(int*, int*, std::complex<float>*, int*, int*, int*);
-void F77_BLAS_MANGLE(zgetri, ZGETRI)(int*, int*, std::complex<double>*, int*, int*, int*);
+void F77_BLAS_MANGLE(sgetri, SGETRI)(int*, float*, int*, int*, float*, int*, int*);
+void F77_BLAS_MANGLE(dgetri, DGETRI)(int*, double*, int*, int*, double*, int*, int*);
+void F77_BLAS_MANGLE(cgetri, CGETRI)(int*, std::complex<float>*, int*, int*, std::complex<float>*, int*, int*);
+void F77_BLAS_MANGLE(zgetri, ZGETRI)(int*, std::complex<double>*, int*, int*, std::complex<double>*, int*, int*);
 
 void F77_BLAS_MANGLE(sscal, SSCAL)(const int* N, const float* alpha,
                                    /* */ float* x, const int* x_inc);
@@ -1194,8 +1194,8 @@ void HostBlas<std::complex<double> >::getrf(int m, int n,
   F77_FUNC_ZGETRF(&m, &n, a, &lda, ipiv, &info);
 }
 template <>
-void HostBlas<std::complex<double>>::getri(int n, std::complex<double> *a, int lda, int *ipiv, std::complex<double> *work, int lwork, int info) {
-  F77_FUNC_CGETRI(&n, a, &lda, ipiv, work, &lwork, &info);
+void HostBlas<std::complex<double> >::getri(int n, std::complex<double> *a, int lda, int *ipiv, std::complex<double> *work, int lwork, int info) {
+  F77_FUNC_ZGETRI(&n, a, &lda, ipiv, work, &lwork, &info);
 }
 
 }  // namespace Impl

@@ -74,7 +74,7 @@ void impl_test_getri(int N) {
 
   // Solve.
   try {
-    KokkosBlas::getri(A, ipiv, work, N); // Aqui
+    KokkosBlas::getri(A, ipiv, work); // Aqui
   } catch (const std::runtime_error& error) {
     // Check for expected runtime errors due to:
     // no-pivoting case (note: only MAGMA supports no-pivoting interface)
