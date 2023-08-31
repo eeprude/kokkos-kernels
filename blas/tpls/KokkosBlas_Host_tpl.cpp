@@ -397,15 +397,6 @@ void F77_BLAS_MANGLE(zgesv, ZGESV)(int*, int*, std::complex<double>*, int*,
                                    int*, std::complex<double>*, int*, int*);
 
 ///
-/// Getrf
-///
-
-void F77_BLAS_MANGLE(sgetrf, SGETRF)(int*, int*, float*, int*, int*, int*);
-void F77_BLAS_MANGLE(dgetrf, DGETRF)(int*, int*, double*, int*, int*, int*);
-void F77_BLAS_MANGLE(cgetrf, CGETRF)(int*, int*, std::complex<float>*, int*, int*, int*);
-void F77_BLAS_MANGLE(zgetrf, ZGETRF)(int*, int*, std::complex<double>*, int*, int*, int*);
-
-///
 /// Trtri
 ///
 /*
@@ -425,6 +416,24 @@ void F77_BLAS_MANGLE(ctrtri, CTRTRI)(const char*, const char*, int*,
 void F77_BLAS_MANGLE(ztrtri, ZTRTRI)(const char*, const char*, int*,
                                      const std::complex<double>*, int*, int*);
 }
+
+///
+/// Getrf
+///
+
+void F77_BLAS_MANGLE(sgetrf, SGETRF)(int*, int*, float*, int*, int*, int*);
+void F77_BLAS_MANGLE(dgetrf, DGETRF)(int*, int*, double*, int*, int*, int*);
+void F77_BLAS_MANGLE(cgetrf, CGETRF)(int*, int*, std::complex<float>*, int*, int*, int*);
+void F77_BLAS_MANGLE(zgetrf, ZGETRF)(int*, int*, std::complex<double>*, int*, int*, int*);
+
+///
+/// Getri
+///
+
+void F77_BLAS_MANGLE(sgetri, SGETRI)(int*, int*, float*, int*, int*, int*);
+void F77_BLAS_MANGLE(dgetri, DGETRI)(int*, int*, double*, int*, int*, int*);
+void F77_BLAS_MANGLE(cgetri, CGETRI)(int*, int*, std::complex<float>*, int*, int*, int*);
+void F77_BLAS_MANGLE(zgetri, ZGETRI)(int*, int*, std::complex<double>*, int*, int*, int*);
 
 void F77_BLAS_MANGLE(sscal, SSCAL)(const int* N, const float* alpha,
                                    /* */ float* x, const int* x_inc);
@@ -538,15 +547,20 @@ void F77_BLAS_MANGLE(zscal,
 #define F77_FUNC_CGESV F77_BLAS_MANGLE(cgesv, CGESV)
 #define F77_FUNC_ZGESV F77_BLAS_MANGLE(zgesv, ZGESV)
 
+#define F77_FUNC_STRTRI F77_BLAS_MANGLE(strtri, STRTRI)
+#define F77_FUNC_DTRTRI F77_BLAS_MANGLE(dtrtri, DTRTRI)
+#define F77_FUNC_CTRTRI F77_BLAS_MANGLE(ctrtri, CTRTRI)
+#define F77_FUNC_ZTRTRI F77_BLAS_MANGLE(ztrtri, ZTRTRI)
+
 #define F77_FUNC_SGETRF F77_BLAS_MANGLE(sgetrf, SGETRF)
 #define F77_FUNC_DGETRF F77_BLAS_MANGLE(dgetrf, DGETRF)
 #define F77_FUNC_CGETRF F77_BLAS_MANGLE(cgetrf, CGETRF)
 #define F77_FUNC_ZGETRF F77_BLAS_MANGLE(zgetrf, ZGETRF)
 
-#define F77_FUNC_STRTRI F77_BLAS_MANGLE(strtri, STRTRI)
-#define F77_FUNC_DTRTRI F77_BLAS_MANGLE(dtrtri, DTRTRI)
-#define F77_FUNC_CTRTRI F77_BLAS_MANGLE(ctrtri, CTRTRI)
-#define F77_FUNC_ZTRTRI F77_BLAS_MANGLE(ztrtri, ZTRTRI)
+#define F77_FUNC_SGETRI F77_BLAS_MANGLE(sgetri, SGETRI)
+#define F77_FUNC_DGETRI F77_BLAS_MANGLE(dgetri, DGETRI)
+#define F77_FUNC_CGETRI F77_BLAS_MANGLE(cgetri, CGETRI)
+#define F77_FUNC_ZGETRI F77_BLAS_MANGLE(zgetri, ZGETRI)
 
 namespace KokkosBlas {
 namespace Impl {
@@ -667,15 +681,19 @@ void HostBlas<float>::gesv(int n, int rhs, float* a, int lda, int* ipiv,
   F77_FUNC_SGESV(&n, &rhs, a, &lda, ipiv, b, &ldb, &info);
 }
 template <>
-void HostBlas<float>::getrf(int m, int n, float *a, int lda, int *ipiv, int info) {
-  F77_FUNC_SGETRF(&m, &n, a, &lda, ipiv, &info);
-}
-template <>
 int HostBlas<float>::trtri(const char uplo, const char diag, int n,
                            const float* a, int lda) {
   int info = 0;
   F77_FUNC_STRTRI(&uplo, &diag, &n, a, &lda, &info);
   return info;
+}
+template <>
+void HostBlas<float>::getrf(int m, int n, float *a, int lda, int *ipiv, int info) {
+  F77_FUNC_SGETRF(&m, &n, a, &lda, ipiv, &info);
+}
+template <>
+void HostBlas<float>::getri(int n, float *a, int lda, int *ipiv, float *work, int lwork, int info) {
+  F77_FUNC_SGETRI(&n, a, &lda, ipiv, work, &lwork, &info);
 }
 
 ///
@@ -795,15 +813,19 @@ void HostBlas<double>::gesv(int n, int rhs, double* a, int lda, int* ipiv,
   F77_FUNC_DGESV(&n, &rhs, a, &lda, ipiv, b, &ldb, &info);
 }
 template <>
-void HostBlas<double>::getrf(int m, int n, double* a, int lda, int* ipiv, int info) {
-  F77_FUNC_DGETRF(&m, &n, a, &lda, ipiv, &info);
-}
-template <>
 int HostBlas<double>::trtri(const char uplo, const char diag, int n,
                             const double* a, int lda) {
   int info = 0;
   F77_FUNC_DTRTRI(&uplo, &diag, &n, a, &lda, &info);
   return info;
+}
+template <>
+void HostBlas<double>::getrf(int m, int n, double* a, int lda, int* ipiv, int info) {
+  F77_FUNC_DGETRF(&m, &n, a, &lda, ipiv, &info);
+}
+template <>
+void HostBlas<double>::getri(int n, double *a, int lda, int *ipiv, double *work, int lwork, int info) {
+  F77_FUNC_DGETRI(&n, a, &lda, ipiv, work, &lwork, &info);
 }
 
 ///
@@ -974,18 +996,22 @@ void HostBlas<std::complex<float> >::gesv(int n, int rhs,
   F77_FUNC_CGESV(&n, &rhs, a, &lda, ipiv, b, &ldb, &info);
 }
 template <>
-void HostBlas<std::complex<float> >::getrf(int m, int n,
-                                          std::complex<float>* a, int lda,
-                                          int* ipiv, int info) {
-  F77_FUNC_CGETRF(&m, &n, a, &lda, ipiv, &info);
-}
-template <>
 int HostBlas<std::complex<float> >::trtri(const char uplo, const char diag,
                                           int n, const std::complex<float>* a,
                                           int lda) {
   int info = 0;
   F77_FUNC_CTRTRI(&uplo, &diag, &n, a, &lda, &info);
   return info;
+}
+template <>
+void HostBlas<std::complex<float> >::getrf(int m, int n,
+                                          std::complex<float>* a, int lda,
+                                          int* ipiv, int info) {
+  F77_FUNC_CGETRF(&m, &n, a, &lda, ipiv, &info);
+}
+template <>
+void HostBlas<std::complex<float>>::getri(int n, std::complex<float> *a, int lda, int *ipiv, std::complex<float> *work, int lwork, int info) {
+  F77_FUNC_CGETRI(&n, a, &lda, ipiv, work, &lwork, &info);
 }
 
 ///
@@ -1154,18 +1180,22 @@ void HostBlas<std::complex<double> >::gesv(int n, int rhs,
   F77_FUNC_ZGESV(&n, &rhs, a, &lda, ipiv, b, &ldb, &info);
 }
 template <>
-void HostBlas<std::complex<double> >::getrf(int m, int n,
-                                            std::complex<double>* a, int lda,
-                                            int* ipiv, int info) {
-  F77_FUNC_ZGETRF(&m, &n, a, &lda, ipiv, &info);
-}
-template <>
 int HostBlas<std::complex<double> >::trtri(const char uplo, const char diag,
                                            int n, const std::complex<double>* a,
                                            int lda) {
   int info = 0;
   F77_FUNC_ZTRTRI(&uplo, &diag, &n, a, &lda, &info);
   return info;
+}
+template <>
+void HostBlas<std::complex<double> >::getrf(int m, int n,
+                                            std::complex<double>* a, int lda,
+                                            int* ipiv, int info) {
+  F77_FUNC_ZGETRF(&m, &n, a, &lda, ipiv, &info);
+}
+template <>
+void HostBlas<std::complex<double>>::getri(int n, std::complex<double> *a, int lda, int *ipiv, std::complex<double> *work, int lwork, int info) {
+  F77_FUNC_CGETRI(&n, a, &lda, ipiv, work, &lwork, &info);
 }
 
 }  // namespace Impl
